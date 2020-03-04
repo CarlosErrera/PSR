@@ -14,23 +14,25 @@
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
+              <v-spacer></v-spacer>
+              <span>{{ new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString() }}</span>
             </v-card-title>
-            
+
             <v-card-text>
               <v-container>
                
                 <v-row>
-                  <v-text-field disabled="" readonly label="Иванов И.И г.Казань ул.Чуйкова 98"></v-text-field>
+                  <v-text-field disabled="" readonly label="Иванов И.И г.Казань ул.Чуйкова 98 от 25.02.2020"></v-text-field>
                 </v-row>
                 
                 <v-row>
                   <!-- <v-text-field label="РПСР"></v-text-field> -->
-                    <v-select :clearable="true" :items="memberFIO" outlined="" label="РПСР"></v-select>
+                    <v-select :clearable="true" :items="memberFIO" outlined="" label="Координатор"></v-select>
                 </v-row>
 
                 <v-row>
                   <!-- <v-text-field  label="Координатор"></v-text-field> -->
-                  <v-select :clearable="true" :items="memberFIO" outlined="" label="Координатор"></v-select>
+                  <v-select :clearable="true" :items="memberFIO" outlined="" label="Регистратор"></v-select>
                 </v-row>
                 
                 <v-row>
@@ -130,7 +132,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Создание новой ПСР" : "Редактирование ПСР";
+      return this.editedIndex === -1 ? "Создание новой ПСР" : "Карточка ПСР";
     }
   },
 
