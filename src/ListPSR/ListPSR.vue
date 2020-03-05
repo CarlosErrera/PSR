@@ -7,15 +7,25 @@
         <v-toolbar-title>Cписок спасательных работ</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="1000px">
+        <!-- <v-dialog v-model="dialog" max-width="1000px"> -->
+        <v-dialog v-model="dialog" :fullscreen="true">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">{{ createNewPSR }}</v-btn>
           </template>
           <v-card>
             <v-card-title>
+              <!-- <v-spacer></v-spacer>
               <span class="headline">{{ formTitle }}</span>
               <v-spacer></v-spacer>
               <span>{{ new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString() }}</span>
+              <v-spacer></v-spacer> -->
+              <v-container>
+                <v-row>
+                  <span class="headline">{{ formTitle }}</span>
+                  <v-spacer></v-spacer>
+                  <span>{{ new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString() }}</span>   
+                </v-row>
+              </v-container>
             </v-card-title>
 
             <v-card-text>
@@ -77,8 +87,9 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Отмена</v-btn>
               <v-btn color="blue darken-1" text @click="save">Сохранить</v-btn>
+              <v-btn color="blue darken-1" text @click="close">Отмена</v-btn>
+              <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
