@@ -1,7 +1,7 @@
 <template>
-    <div id="app">
+    <div id="app" >
   
-    <v-navigation-drawer v-model="drawer" app
+    <!-- <v-navigation-drawer v-model="drawer" app
       clipped>
       <v-list>
         <v-list-item v-on:click="createGridPSR">
@@ -18,7 +18,7 @@
 
       </v-list>
 
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
      
 
 
@@ -26,7 +26,7 @@
       app
       clipped-left
     >
-      <v-app-bar-nav-icon dark v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <!-- <v-app-bar-nav-icon dark v-on:click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
       
         <v-toolbar color="primary" dark flat>
             <v-toolbar-title >Система управления поисковыми группами</v-toolbar-title>
@@ -36,8 +36,8 @@
     
 
     <v-content app>
-      <v-container fluid>
-          <ListPSR v-if="renderGridPSR"/>
+      <v-container fluid >
+          <ListPSR />
       </v-container>
     </v-content>
 
@@ -51,17 +51,9 @@ import ListPSR from '../ListPSR/ListPSR.vue';
 
 export default {
     data: () => ({
-        drawer: null,
-        renderGridPSR: false
-
     }),
     components:{
       ListPSR
-    },
-    methods:{
-      createGridPSR: function(){
-        this.renderGridPSR = true
-      }
     }
 }
 </script>
