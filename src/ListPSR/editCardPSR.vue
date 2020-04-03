@@ -1,8 +1,8 @@
 <template>
   <v-card>
-      <!-- <v-dialog v-model="RegistrationList" :fullscreen="true">
+    <!-- <v-dialog v-model="RegistrationList" :fullscreen="true">
           <RegistrationList v-on:closeRegistrationList = "closeRegistrationListHandler"/>
-      </v-dialog> -->
+    </v-dialog>-->
 
     <v-card-title>
       <v-container>
@@ -26,7 +26,7 @@
     <v-card-text>
       <v-container>
         <v-row>
-          <v-text-field label="Имя" >{{cardData.name}}</v-text-field>
+          <v-text-field label="Имя">{{cardData.name}}</v-text-field>
         </v-row>
 
         <v-row>
@@ -60,31 +60,78 @@
       <v-spacer></v-spacer>
       <v-btn color="orange" dense @click="showRegistrationList">Лист Регистрации</v-btn>
       <v-spacer></v-spacer>
-    </v-card-actions> -->
+    </v-card-actions>-->
   </v-card>
 </template>
 <script>
-
+import api from '../api';
 export default {
-    props:['cardProps'],
-    
-    data: function(){
-        return{
-            cardData: this.cardProps,
-            formTitle: 'Карточка ПСР',  
-        }
-    },
-    created: function(){
-      this.init();
-    },
-    methods: {
-      init: function(){
-        console.log(this.cardData);
+  props: ["cardProps"],
+  /*
+    "id": 1,
+    "psr": {
+      "id": 1,
+      "name": "г. Казань, Иванов Иван Иванович, ул. Чуйкова, 1965 г.р.",
+      "startDate": "2020-03-01",
+      "endDate": "2020-03-02",
+      "psrState": {
+        "id": 2,
+        "name": "Идет поиск"
       },
-      close: function() {
-        this.$emit("closeCardPSR");
-      }
+      "comment": "Найден Жив"
+    },
+    "station": "г. Казань, ул. Чуйкова, 54а (Стоянка) [55.835608, 49.141352]",
+    "psrLeader": {
+      "login": "artem",
+      "fio": "Артем Латышев",
+      "id": 1
+    },
+    "psrRegisteredUser": {
+      "login": "albina",
+      "fio": "Альбина Гараева",
+      "id": 2
+    },
+    "objectInfo": "Пропал М/82, в 8:00, заявка 112, г. Казань, ул. Чуйкова",
+    "content": "Инфомрация по второму дню поиска",
+    "photo": null
+    
+    */
 
+  data: function() {
+    return {
+      cardData: this.cardProps,
+      formTitle: "Карточка ПСР",
+      psrStateList: []
+    };
+  },
+  created: function() {
+    this.init();
+  },
+  methods: {
+    init: function() {
+      console.log(this.cardData);
+    },
+    loadPsrStateList: function() {
+      this.$http
+        .get(api.url.psrStateList)
+        .then(
+          function(response) {
+            // this.psrStateList =  this.psrStateList.concat(response.data);
+            this.psrStateList = response.data.map(function(state) {
+              return {
+                text: state.name,
+                value: state.id
+              };
+            });
+          }.bind(this)
+        )
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+    close: function() {
+      this.$emit("closeCardPSR");
     }
+  }
 };
 </script>

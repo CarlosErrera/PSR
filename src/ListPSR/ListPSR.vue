@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="PSRmembers"  class="elevation-1">
+  <v-data-table :headers="headers" :items="psrMembers"  class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Cписок спасательных работ</v-toolbar-title>
@@ -26,10 +26,29 @@
       </v-toolbar>
     </template>
 
-    <template v-slot:item.Status="{ item }">
+    <!-- <template v-slot:item.Status="{ item }">
       <span
         v-bind:class="{ defaultStatus: item.Status, statusIsOpen: !item.Status }"
       >{{ item.Status | statusFilter}}</span>
+    </template> -->
+    <template v-slot:item.id="{ item }">
+      <span> {{ item.psr.id }}</span>
+    </template>
+
+    <template v-slot:item.name="{ item }">
+      <span> {{item.psr.name}}</span>
+    </template>
+
+    <template v-slot:item.startDate="{ item }">
+      <span> {{item.psr.startDate}}</span>
+    </template>
+
+    <template v-slot:item.endDate="{ item }">
+      <span> {{item.psr.endDate }}</span>
+    </template>
+
+    <template v-slot:item.psrState="{ item }">
+      <span> {{item.psr.psrState.name}}</span>
     </template>
 
     <!-- <template v-slot:item.action>
@@ -53,7 +72,7 @@
 import editCardPSR from './editCardPSR';
 import addCardPSR from './addCardPSR';
 import RegistrationList from './RegistrationList';
-// import api from '../api';
+import api from '../api';
 
 export default {
   
@@ -68,17 +87,31 @@ export default {
     RegistrationList_isVisible: false,
     cardProps: {},
     createNewPSR: "Создать новый ПСР",
-
+    /*
+    "psr": {
+      "comment": "string",
+      "endDate": "string",
+      "id": 0,
+      "name": "string",
+      "psrState": {
+        "id": 0,
+        "name": "string"
+      },
+      "startDate": "string"
+    },
+    */
     headers: [
       { text: "Номер ПСР", value: "id", sortable: false },
-      { text: "Населенный пункт", value: "Settlement" },
-      { text: "Начало ПСР", value: "StartDate" },
-      { text: "Окончание ПСР", value: "EndDate" },
-      { text: "Статус", value: "Status" },
+      { text: "Населенный пункт", value: "name" },
+      { text: "Начало ПСР", value: "startDate" },
+      { text: "Окончание ПСР", value: "endDate" },
+      { text: "Статус", value: "psrState" },
       { text: "Карточка ПСР", value: "cardPSR", sortable: false },
       { text: "Лист Регистрации", value: "registrList", sortable: false }
     ],
-    PSRmembers: [],
+    psrMembers: [],
+    
+    
   }),
 
   computed: {
@@ -108,27 +141,20 @@ export default {
 
   methods: {
     initialize: function() {
-      this.PSRmembers = [
-        {
-          id: 1208,
-          Settlement: "Lorem ipsun qweqfawd",
-          StartDate: "18.09.2020",
-          EndDate: "26.09.2022",
-          Status: true
-        },
-        {
-          id: 5609,
-          Settlement: "Lorem ipsun qweqfawd",
-          StartDate: "18.09.2020",
-          EndDate: "26.09.2022",
-          Status: false
-        }
-      ]
-      // this.$http.get(api.url.psrListGetAll).then( function(response){
-      //   console.log(response);
-      // })
+      this.loadPsrList();
+    },
+    loadPsrList: function(){
+      this.$http.get(api.url.psrDataList)
+      .then( function(response){        
+        this.psrMembers =  this.psrMembers.concat(response.data);
+
+      }.bind(this))
+      .catch(function(err){
+        console.log(err);
+      })
     },
     editCardPSRHandler: function(item){
+
       this.cardProps = Object.assign({}, item);
 
       this.editCardPSR_isVisible ? 
@@ -144,7 +170,20 @@ export default {
       this.RegistrationList_isVisible ?
         this.RegistrationList_isVisible = false :
         this.RegistrationList_isVisible = true
+    },
+    save: function(){
+
+    },
+    cancel: function(){
+
+    },
+    open: function(){
+
+    },
+    close: function(){
+      
     }
+
   }
 };
 </script>
