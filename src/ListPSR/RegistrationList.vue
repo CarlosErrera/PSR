@@ -22,22 +22,34 @@
       </v-container>
     </v-card-subtitle>
 
-    <v-card-actions>  
-      <v-container>
-        <v-row>
-        <v-btn color="blue" dense dark @click="showMemberForm">Записать участника</v-btn>
-        </v-row>
-      </v-container>
-      
-    </v-card-actions>
-
     <v-card-text>
-      <v-container>
-        <v-data-table :headers="headers" :items="members" :disable-pagination="true"></v-data-table>
-      </v-container>
+        
+        <v-row>
+          <v-col class="d-flex" align-self="start" sm="9" md="5" cols="12" xs="12">
+            <v-btn color="blue" dense dark @click="showMemberForm" >Записать участника</v-btn>
+            <v-spacer></v-spacer>
+            <v-select 
+                dense
+                outlined
+                label="Изменить статус"  
+                :items="statusStore">
+            </v-select>
+          </v-col>
+        </v-row>
+      
+        <v-spacer></v-spacer>
+        
+        <v-data-table dense
+          :headers="headers" 
+          :items="members" 
+          :mobile-breakpoint="100"
+          :disable-filtering="true"
+          :disable-sort="true"
+          :show-select="true"
+          :hide-default-footer="true"
+          :disable-pagination="true"></v-data-table>
+         
     </v-card-text>
-
-
   </v-card>
 
 
@@ -54,16 +66,25 @@ export default {
       formTitle: "Лист Регистрации",
       members: [],
       addMemberForm: false,
-
+      statusStore:[
+        {
+          text: 'Пришел',
+          value: '1'
+        },
+        {
+          text: 'Ушел',
+          value: '2'
+        },
+      ],
       headers: [
         { text: "пп", value: "id", sortable: false },
         { text: "Участник", value: "member", sortable: false },
         { text: "Статус", value: "status", sortable: false },
-        { text: "А", value: "transport", sortable: false },
+        { text: "А", value: "a", sortable: false },
         { text: "К", value: "k", sortable: false },
-        { text: "Эк", value: "ek", sortable: false },
         { text: "РВП", value: "rvp", sortable: false },
-        { text: "РВО", value: "rvo", sortable: false }
+        { text: "РВО", value: "rvo", sortable: false },
+        { text: "Эк", value: "ek", sortable: false },
       ]
     };
   },
@@ -75,13 +96,33 @@ export default {
       this.members = [
         {
           id: 1208,
-          member: "Lorem ipsun qweqfawd",
-          status: "18.09.2020",
-          transport: "26.09.2022",
-          k: true,
-          ek: true,
-          rvp: true,
-          rvo: true
+          member: "Lorem ipsun ",
+          status: "Прибыл",
+          a: "A",
+          k: "1",
+          ek: "4",
+          rvp: "19:00",
+          rvo: "00:01"
+        },
+        {
+          id: 1210,
+          member: "Lorem ipsun ",
+          status: "Прибыл",
+          a: "A",
+          k: "1",
+          ek: "2",
+          rvp: "19:00",
+          rvo: "00:01"
+        },
+        {
+          id: 1209,
+          member: "Lorem ipsun ",
+          status: "Прибыл",
+          a: "A",
+          k: "2",
+          ek: "1",
+          rvp: "19:00",
+          rvo: "00:01"
         }
       ];
     },
