@@ -48,7 +48,7 @@
     </template>
 
     <template v-slot:item.psrState="{ item }">
-      <span> {{item.psr.psrState.name}}</span>
+      <span> {{item.psr.psrState.text }}</span>
     </template>
 
     <!-- <template v-slot:item.action>
@@ -146,7 +146,38 @@ export default {
     loadPsrList: function(){
       this.$http.get(api.url.psrDataList)
       .then( function(response){        
-        this.psrMembers =  this.psrMembers.concat(response.data);
+        // this.psrMembers =  this.psrMembers.concat(response.data);
+        this.psrMembers =  response.data.map(function(member){
+          return {
+            id: member.id,
+            psr: {
+              id: member.psr.id,
+              name:member.psr.name ,
+              startDate:member.psr.startDate,
+              endDate: member.psr.endDate,
+              psrState: {
+                value: member.psr.psrState.id,
+                text: member.psr.psrState.name
+              },
+              comment: member.psr.comment
+            },
+            station: member.station,
+            psrLeader: {
+              // login: member.psrLeader.login,
+              text: member.psrLeader.fio,
+              value: member.psrLeader.id
+            },
+            psrRegisteredUser: {
+              login: member.psrRegisteredUser.login,
+              fio: member.psrRegisteredUser.fio,
+              id: member.psrRegisteredUser.id
+            },
+            objectInfo: member.objectInfo,
+            content: member.content,
+            photo: member.photo
+          }
+
+        });
 
       }.bind(this))
       .catch(function(err){
@@ -170,18 +201,6 @@ export default {
       this.RegistrationList_isVisible ?
         this.RegistrationList_isVisible = false :
         this.RegistrationList_isVisible = true
-    },
-    save: function(){
-
-    },
-    cancel: function(){
-
-    },
-    open: function(){
-
-    },
-    close: function(){
-      
     }
 
   }

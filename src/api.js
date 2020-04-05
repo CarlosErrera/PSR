@@ -4,5 +4,6 @@ export default {
         psrList: 'http://localhost:8080/psr/api' + '/psr',
         psrDataList: 'http://localhost:8080/psr/api' + '/psr-data',
         psrStateList: 'http://localhost:8080/psr/api' + '/psr-state',
+        psrLeaderList: 'http://localhost:8080/psr/api' + '/users'
     }
 }
