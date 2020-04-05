@@ -51,5 +51,11 @@
   </v-card>
 </template>
 <script>
-export default {};
+export default {
+  methods:{
+    close: function(){
+      this.$emit('close')
+    }
+  }
+};
 </script>
