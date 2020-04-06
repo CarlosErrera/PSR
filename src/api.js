@@ -1,10 +1,12 @@
+// var base_url = 'http://localhost:8080/psr/api';
+var base_url = '/psr/api';
 
 export default {
     url:{
-        psrList: 'http://localhost:8080/psr/api' + '/psr',
-        psrDataList: 'http://localhost:8080/psr/api' + '/psr-data',
-        psrStateList: 'http://localhost:8080/psr/api' + '/psr-state',
-        psrLeaderList: 'http://localhost:8080/psr/api' + '/users',
-        psrRegistrationList: 'http://localhost:8080/psr/api' + '/psr-list-registration',
+        psrList: base_url + '/psr',
+        psrDataList: base_url + '/psr-data',
+        psrStateList: base_url + '/psr-state',
+        psrLeaderList: base_url + '/users',
+        psrRegistrationList: base_url + '/psr-list-registration',
     }
 }
