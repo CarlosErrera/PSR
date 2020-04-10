@@ -1,44 +1,44 @@
 <template>
   <v-card>
-    <v-dialog v-model="addMemberForm" max-width="700">
-      <addMemberForm v-on:close="closeMemberForm"/>
+    <v-dialog v-model="isActiveAddMemberForm" max-width="700">
+      <addMemberForm v-if="isActiveAddMemberForm" v-on:close="closeMemberForm"/>
     </v-dialog>
     <v-card-title>
-      <v-container>
-        <v-row>
-          <span class="headline">{{ formTitle }}</span>
-          <v-spacer></v-spacer>
-          <!-- <v-btn color="blue" dark @click="closeRegistrationList">Назад</v-btn> -->
-          <v-icon @click="closeRegistrationList">close</v-icon>
-        </v-row>
-      </v-container>
+
+      <span class="headline">{{ formTitle }}</span>
+      <v-spacer></v-spacer>
+      <!-- <v-btn color="blue" dark @click="closeRegistrationList">Назад</v-btn> -->
+      <v-icon @click="closeRegistrationList">close</v-icon>
+
     </v-card-title>
 
     <v-card-subtitle>
-      <v-container>
-        <v-row>
-          <span>Доступные ресурсы</span>
-        </v-row>
-      </v-container>
+      <span>Доступные ресурсы</span>
     </v-card-subtitle>
 
     <v-card-text>
         
         <v-row>
-          <v-col class="d-flex" align-self="start" sm="9" md="5" cols="12" xs="12">
+          <!-- <v-col class="d-flex" align-self="start" sm="9" md="5" cols="12" xs="12"> -->
+          <v-col class="d-flex" sm="9" md="5" cols="12" xs="12">
             <v-btn color="blue" dense dark @click="showMemberForm" >Записать участника</v-btn>
             <v-spacer></v-spacer>
             <v-select 
                 dense
                 outlined
+                :disabled="stateDisable"
                 label="Изменить статус"  
                 :items="statusStore">
             </v-select>
+            <v-spacer></v-spacer>
+
           </v-col>
         </v-row>
       
         <v-spacer></v-spacer>
         
+        <v-row>
+  
         <v-data-table dense
           :headers="headers" 
           :items="members" 
@@ -47,13 +47,15 @@
           :disable-sort="true"
           :show-select="true"
           :hide-default-footer="true"
+          
+          v-on:input = "ItemSelectedHandler"
           :disable-pagination="true">
 
-        <template v-slot:item.volunteer.id="{ item }">
+        <template v-slot:item.id="{ item }">
           <span>{{ item.volunteer.id}}</span>
         </template>  
 
-        <template v-slot:item.volunteer.fio="{ item }">
+        <template v-slot:item.fio="{ item }">
           <span>{{ item.volunteer.fio}}</span>
         </template>  
 
@@ -65,7 +67,7 @@
           <span>{{ item.shuttleNum}}</span>
         </template>  
 
-        <template v-slot:item.volunteer.classification="{ item }">
+        <template v-slot:item.classification="{ item }">
           <span>{{ item.volunteer.classification.name }}</span>
         </template>  
 
@@ -80,9 +82,14 @@
         <template v-slot:item.shuttleNum="{ item }">
           <span>{{ item.shuttleNum }}</span>
         </template> 
+        
+        <!-- <template v-slot:item.data-table-select="{ item }">
+
+        </template> -->
 
         </v-data-table>
-         
+        </v-row>
+        
     </v-card-text>
   </v-card>
 
@@ -140,7 +147,9 @@ export default {
     return {
       formTitle: "Лист Регистрации",
       members: [],
-      addMemberForm: false,
+      isActiveAddMemberForm: false,
+      selectedItems:[],
+      stateDisable: true,
       statusStore:[
         {
           text: 'Пришел',
@@ -171,11 +180,26 @@ export default {
     initialize: function() {
 
     },
+    ItemSelectedHandler: function(items){
+      console.log(items);
+      if (items.length >0){
+        this.stateDisable = false
+      }
+      else{
+        this.stateDisable = true
+      }
+      // this.selectedItems = items.map(function(item){
+      //   return {
+
+      //   }
+      // });
+    },
     loadRegistrationList: function(){
+
       this.axios.get( api.url.psrRegistrationList)
       .then(function(response){
-          this.members = Object.assign({}, response.data);
-      })
+          this.members =  response.data;
+      }.bind(this))
       .catch(function(e){
           console.log(e);
       })
@@ -184,10 +208,10 @@ export default {
       this.$emit("closeRegistrationList");
     },
     showMemberForm: function(){
-        this.addMemberForm = true;
+        this.isActiveAddMemberForm = true;
     },
     closeMemberForm: function(){
-        this.addMemberForm = false;
+        this.isActiveAddMemberForm = false;
     }
 
   }

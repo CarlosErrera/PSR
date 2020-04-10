@@ -71,6 +71,27 @@
         </v-row>
       </v-container>
     </v-card-text>
+    <!-- loading -->
+        <v-dialog
+          v-model="dialog"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="primary"
+            dark>
+            <v-card-text>
+              Пожалуйста, подождите...
+              <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+    <!-- /loading -->
 
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -87,16 +108,18 @@ export default {
         return{
             psrStateList: [],
             psrLeaderList: [],
+            dialog:false,
+
             formTitle: 'Создание новой ПСР',
             cardData: {
-              id: null,
+              id: '',
               psr: {
-                id: null,
+                id: '',
                 name: "",
                 startDate: "",
                 endDate: "",
                 psrState: {
-                  value: null,
+                  value: '',
                   text: ""
                 },
                 comment: ""
@@ -105,7 +128,7 @@ export default {
               psrLeader: {
                 "login": "artem",
                 text: "",
-                value: null
+                value: ''
               },
               psrRegisteredUser: {
                 "login": "albina",
@@ -114,7 +137,7 @@ export default {
               },
               objectInfo: "",
               content: "",
-              photo: null
+              photo: ''
             }
             
         }
@@ -128,13 +151,24 @@ export default {
 
     },
     SaveHandler: function(){
-        this.axios.post( api.url.psrDataList , {
-            body: this.cardData
-        }).then(function(response){
-            console.log(response)
-        }).catch(function(e){
-            console.log(e);
-        })
+        this.dialog = true;
+
+        this.axios.post( api.url.psrDataList , this.cardData)
+        .then(function(response){
+          setTimeout(function(){
+            this.dialog = false;
+          }.bind(this),1000)
+          console.log(response)
+
+        }.bind(this))
+        .catch(function(e){
+
+          setTimeout(function(){
+            this.dialog = false;
+          }.bind(this),1000)
+          console.log(e);
+
+        }.bind(this))
     },
     loadPsrStateList: function() {
       this.$http

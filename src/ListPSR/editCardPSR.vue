@@ -71,6 +71,27 @@
         </v-row>
       </v-container>
     </v-card-text>
+    <!-- loading -->
+        <v-dialog
+          v-model="dialog"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="primary"
+            dark>
+            <v-card-text>
+              Пожалуйста, подождите...
+              <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+    <!-- /loading -->
 
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -116,6 +137,7 @@ export default {
   data: function() {
     return {
       cardData:this.cardProps,
+      dialog: false,
       formTitle: "Карточка ПСР",
       psrStateList: [],
       psrLeaderList: [],
@@ -181,6 +203,8 @@ export default {
       //   fio: obj1.psrLeader.text,
       // }
 
+      this.dialog = true;
+
       this.$http
         .put(api.url.psrDataList,{
           id: this.cardData.id,
@@ -188,12 +212,22 @@ export default {
         })
         .then(
           function(response) {
+
+            setTimeout(function(){
+              this.dialog = false;
+            }.bind(this),1000)
+
             console.log(response);
           }.bind(this)
         )
         .catch(function(err) {
+
+            setTimeout(function(){
+              this.dialog = false;
+            }.bind(this),1000)
+
           console.log(err);
-        });      
+        }.bind(this));      
     },
     close: function() {
       this.$emit("closeCardPSR");

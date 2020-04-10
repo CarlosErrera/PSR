@@ -1,5 +1,5 @@
-// var base_url = 'http://localhost:8080/psr/api';
-var base_url = '/psr/api';
+var base_url = 'http://localhost:8080/psr/api';
+// var base_url = '/psr/api'; 
 
 export default {
     url:{

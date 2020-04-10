@@ -1,4 +1,20 @@
 <template>
+  <div>
+        <!-- addCardPSR -->
+        <v-dialog v-model="addCardPSR_isVisible" :fullscreen="true">
+          <addCardPSR v-if="addCardPSR_isVisible" v-on:closeCardPSR="addCardPSRHandler" />
+        </v-dialog>
+
+        <!-- editCardPSR-->
+        <v-dialog v-model="editCardPSR_isVisible" :fullscreen="true">
+          <editCardPSR v-if="editCardPSR_isVisible" v-bind:cardProps="cardProps" v-on:closeCardPSR="editCardPSRHandler" />
+        </v-dialog>
+
+        <!-- Registration list  -->
+        <v-dialog v-model="RegistrationList_isVisible" :fullscreen="true" >
+          <RegistrationList v-if="RegistrationList_isVisible" v-on:closeRegistrationList="RegistrationListHandler"></RegistrationList>
+        </v-dialog>
+  
   <v-data-table :headers="headers" :items="psrMembers"  class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
@@ -8,20 +24,7 @@
 
         <v-btn color="primary" @click="addCardPSRHandler">{{ createNewPSR }}</v-btn>
 
-        <!-- addCardPSR -->
-        <v-dialog v-model="addCardPSR_isVisible" :fullscreen="true">
-          <addCardPSR  v-on:closeCardPSR="addCardPSRHandler" />
-        </v-dialog>
 
-        <!-- editCardPSR-->
-        <v-dialog v-model="editCardPSR_isVisible" :fullscreen="true">
-          <editCardPSR v-bind:cardProps="cardProps" v-on:closeCardPSR="editCardPSRHandler" />
-        </v-dialog>
-
-        <!-- Registration list  -->
-        <v-dialog v-model="RegistrationList_isVisible" :fullscreen="true" >
-          <RegistrationList v-on:closeRegistrationList="RegistrationListHandler"></RegistrationList>
-        </v-dialog>
 
       </v-toolbar>
     </template>
@@ -31,6 +34,8 @@
         v-bind:class="{ defaultStatus: item.Status, statusIsOpen: !item.Status }"
       >{{ item.Status | statusFilter}}</span>
     </template> -->
+
+
     <template v-slot:item.id="{ item }">
       <span> {{ item.psr.id }}</span>
     </template>
@@ -67,6 +72,7 @@
       <v-btn color="primary" @click="initialize">Reset</v-btn>
     </template>
   </v-data-table>
+  </div>
 </template>
 <script>
 import editCardPSR from './editCardPSR';
@@ -182,7 +188,7 @@ export default {
       }.bind(this))
       .catch(function(err){
         console.log(err);
-      })
+      }.bind(this))
     },
     editCardPSRHandler: function(item){
 
