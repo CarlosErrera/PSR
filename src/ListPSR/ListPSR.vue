@@ -53,7 +53,7 @@
     </template>
 
     <template v-slot:item.psrState="{ item }">
-      <span> {{item.psr.psrState.text }}</span>
+      <span> {{item.psr.psrState.name }}</span>
     </template>
 
     <!-- <template v-slot:item.action>
@@ -153,6 +153,8 @@ export default {
       this.$http.get(api.url.psrDataList)
       .then( function(response){        
         // this.psrMembers =  this.psrMembers.concat(response.data);
+        this.psrMembers =  response.data;
+        /*
         this.psrMembers =  response.data.map(function(member){
           return {
             id: member.id,
@@ -184,6 +186,7 @@ export default {
           }
 
         });
+        */
 
       }.bind(this))
       .catch(function(err){

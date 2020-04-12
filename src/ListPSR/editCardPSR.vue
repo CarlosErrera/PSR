@@ -33,9 +33,11 @@
         <v-row>
           <!-- <v-text-field label="РПСР"></v-text-field>  -->
           <v-combobox 
-            v-model="cardData.psrLeader.text"
-            :value="cardData.psrLeader.value"
+            v-model="cardData.psrLeader.fio"
+            :value="cardData.psrLeader.login"
             :clearable="true" 
+            item-value="login"
+            item-text="fio"
             :items="psrLeaderList" 
             outlined 
             label="Координатор"></v-combobox>
@@ -62,7 +64,9 @@
           <!-- <v-select label="Статус" v-model="cardData.psr.psrState" :value="cardData.psr.psrState" :items="psrStateList"></v-select> -->
           <v-combobox label="Статус"  
             v-model="cardData.psr.psrState" 
-            :value="cardData.psr.psrState.value"  
+            item-text="name"
+            item-value="id"
+            :value="cardData.psr.psrState.id"  
             :items="psrStateList"></v-combobox>
         </v-row>
 

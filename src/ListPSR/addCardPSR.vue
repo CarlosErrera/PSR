@@ -35,6 +35,8 @@
           <v-combobox 
             v-model="cardData.psrLeader" 
             :clearable="true" 
+            item-text="fio"
+            item-value="login"
             :items="psrLeaderList" 
             outlined 
             label="Координатор"></v-combobox>
@@ -59,9 +61,11 @@
         
         <v-row>
           <!-- <v-select label="Статус" v-model="cardData.psr.psrState" :value="cardData.psr.psrState" :items="psrStateList"></v-select> -->
-          <v-combobox label="Статус"  
+          <v-combobox label="Статус" 
+            item-text="name"
+            item-value="id" 
             v-model="cardData.psr.psrState" 
-            :value="cardData.psr.psrState.value"
+            :value="cardData.psr.psrState.id"
              
             :items="psrStateList"></v-combobox>
         </v-row>
@@ -119,16 +123,16 @@ export default {
                 startDate: "",
                 endDate: "",
                 psrState: {
-                  value: '',
-                  text: ""
+                  id: '',
+                  name: ""
                 },
                 comment: ""
               },
               station: "",
               psrLeader: {
                 "login": "artem",
-                text: "",
-                value: ''
+                fio: "",
+                password: ''
               },
               psrRegisteredUser: {
                 "login": "albina",
@@ -153,7 +157,8 @@ export default {
     SaveHandler: function(){
         this.dialog = true;
 
-        this.axios.post( api.url.psrDataList , this.cardData)
+        this.axios.post( api.url.psrDataList , 
+         this.cardData)
         .then(function(response){
           setTimeout(function(){
             this.dialog = false;
@@ -176,12 +181,15 @@ export default {
         .then(
           function(response) {
             // this.psrStateList =  this.psrStateList.concat(response.data);
+            this.psrStateList = response.data
+            /*
             this.psrStateList = response.data.map(function(state) {
               return {
                 text: state.name,
                 value: state.id
               };
             });
+            */
           }.bind(this)
         )
         .catch(function(err) {
@@ -194,12 +202,13 @@ export default {
         .then(
           function(response) {
             // this.psrStateList =  this.psrStateList.concat(response.data);
-            this.psrLeaderList = response.data.map(function(user){
-              return {
-                text: user.fio,
-                value: user.id,
-              }
-            })
+            // this.psrLeaderList = response.data.map(function(user){
+            //   return {
+            //     text: user.fio,
+            //     value: user.id,
+            //   }
+            // })
+            this.psrLeaderList = response.data
           }.bind(this)
         )
         .catch(function(err) {
