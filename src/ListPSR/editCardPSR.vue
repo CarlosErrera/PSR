@@ -162,12 +162,15 @@ export default {
         .then(
           function(response) {
             // this.psrStateList =  this.psrStateList.concat(response.data);
+            this.psrStateList = response.data;
+            /*
             this.psrStateList = response.data.map(function(state) {
               return {
                 text: state.name,
                 value: state.id
               };
             });
+            */
           }.bind(this)
         )
         .catch(function(err) {
@@ -180,12 +183,15 @@ export default {
         .then(
           function(response) {
             // this.psrStateList =  this.psrStateList.concat(response.data);
+            this.psrLeaderList = response.data;
+            /*
             this.psrLeaderList = response.data.map(function(user){
               return {
                 text: user.fio,
                 value: user.id,
               }
             })
+            */
           }.bind(this)
         )
         .catch(function(err) {

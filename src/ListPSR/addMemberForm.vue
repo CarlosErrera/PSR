@@ -12,20 +12,52 @@
     </v-card-title>
 
     <v-card-text>
+
       <v-container>
         <v-row>
-          <v-text-field label="Имя, Фамилия" v-model="memberData.volunteer.fio"></v-text-field>
+          <v-checkbox label="Записать существующего" v-model="memberIsExist" > </v-checkbox>
         </v-row>
 
         <v-row>
-          <v-text-field label="Телефон" v-model="memberData.volunteer.phone"></v-text-field>
+          <!-- <v-text-field label="РПСР"></v-text-field>  -->
+          <v-combobox 
+            v-if="memberIsExist"
+            v-model="memberData.volunteer.fio"
+            :value="memberData.volunteer.fio"
+            :clearable="true" 
+            :disabled="true" 
+            outlined 
+            label="Имя, Фамилия"></v-combobox>
+        </v-row>
+
+        <v-row>
+          <v-text-field v-if="!memberIsExist" label="Имя, Фамилия" v-model="memberData.volunteer.fio"></v-text-field>
+        </v-row>
+
+        <v-row>
+          <v-radio-group :row="true" v-if="!memberIsExist" >
+            
+            <v-radio label="Мужской"></v-radio>
+            <v-radio label="Женский"></v-radio>
+            
+          </v-radio-group>
+        </v-row>
+
+        <v-row>
+          <v-text-field v-if="!memberIsExist" label="Телеграмм участника" v-model="memberData.volunteer.fio"></v-text-field>
+        </v-row>
+
+        <v-row>
+          <v-text-field v-if="!memberIsExist"   label="Рейтинг"  ></v-text-field>
+        </v-row>
+
+
+        <v-row>
+          <v-text-field v-if="!memberIsExist" label="Телефон" v-model="memberData.volunteer.phone"></v-text-field>
         </v-row>
 
         <v-row>
           <v-text-field label="Наличие Авто" v-model="memberData.shuttleNum"></v-text-field>
-        </v-row>
-        <v-row>
-          <v-text-field label="Рейтинг" value="empty dev" :disabled="true"></v-text-field>
         </v-row>
         
         <v-row>
@@ -84,7 +116,7 @@
           </v-menu>
         </v-row>
         <v-row>
-          <v-text-field label="Примечание" value="empty dev" :disabled="true"></v-text-field>
+          <v-text-field label="Примечание"></v-text-field>
         </v-row>
       </v-container>
     </v-card-text>
@@ -131,6 +163,7 @@ export default {
       menurvp: false,  
       menurvo: false,
       dialog: false,
+      memberIsExist: true,
       memberData: {},
       emptyObj: {} 
     }

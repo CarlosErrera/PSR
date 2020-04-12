@@ -18,7 +18,7 @@
     <v-card-subtitle>
       <v-container>
         <v-row>
-          <span>{{ cardData.psr.startDate }}</span>
+          <span>{{ cardData.psr.startDate=new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString() }}</span>
           <!-- <span>{{ new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString() }}</span> -->
         </v-row>
       </v-container>
