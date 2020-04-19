@@ -30,6 +30,8 @@
       
         <v-toolbar color="primary" dark flat>
             <v-toolbar-title >Система управления поисковыми группами</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-icon @click="exitAppHandler">exit_to_app</v-icon>
         </v-toolbar>
 
     </v-app-bar>
@@ -48,12 +50,25 @@
 </template>>
 <script>
 import ListPSR from '../ListPSR/ListPSR.vue';
+import api from '../api';
 
 export default {
     data: () => ({
     }),
     components:{
       ListPSR
+    },
+    methods:{
+      exitAppHandler: function(){
+        this.axios.get(api.url.logout)
+        .then(function(){
+          this.$router.push("/");
+        }.bind(this))
+        .catch(function(e){
+          console.log(e);
+          this.$router.push("/");
+        }.bind(this))
+      }
     }
 }
 </script>

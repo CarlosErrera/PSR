@@ -17,6 +17,28 @@
           </v-col>
     </v-row>-->
 
+    <!-- loading -->
+        <v-dialog
+          v-model="wait"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="primary"
+            dark>
+            <v-card-text>
+              Пожалуйста, подождите...
+              <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+    <!-- /loading -->
+
     <v-row align="center" justify="center">
       <v-col cols="12" sm="6" md="5" lg="4">
         <!-- <v-banner single-line sticky> Система управления поисковыми группами </v-banner> -->
@@ -34,14 +56,14 @@
           <v-card-text>
             <v-form>
               <!-- <v-text-field label="Логин" name="login" v-model="username" type="text" /> -->
-              <v-text-field label="Логин" name="login" v-model="username" type="text" :rules="[rules.validationUsername]"  />
+              <v-text-field label="Логин" name="login" v-model="username" :value="username" type="text" :rules="[rules.validationUsername]"  />
 
-              <v-text-field label="Пароль" name="password" v-model="password"  type="password" :rules="[rules.validationPassword]"/>
+              <v-text-field label="Пароль" name="password" v-model="password" :value="password"  type="password" :rules="[rules.validationPassword]"/>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn  color="primary" @click="doLogin">Войти</v-btn>
+            <v-btn  color="primary" @click="doLogin" :disabled="disBtn ">Войти</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -50,6 +72,8 @@
 </template>
 
 <script>
+import api from '../api';
+
 export default {
   name: "LoginForm",
 
@@ -57,34 +81,73 @@ export default {
     return {
       rules: {     
         validationUsername: function(val){
-          if (val.length > 50 ){
-            return 'Логин не должен превышать больше 50 символов' 
+          if (val){
+            if (val.length > 50 ){
+              return 'Логин не должен превышать больше 50 символов' 
+            }
+            if (val.length == 0){
+              return 'Логин не должен быть пустым!'
+            }
           }
-          if (val.length == 0){
-            return 'Логин не должен быть пустым!'
+          else{
+              return 'Логин не должен быть пустым!'
           }
+
           return true;
 
-        }.bind(this),
+        },
 
         validationPassword: function(val){
-          if (val.length == 0){
-            return 'Пароль не должен быть пустым!'
+          if (val){
+            if (val.length == 0){
+              return 'Пароль не должен быть пустым!'
+            }
+            if (val.length > 50){
+              return 'Пароль не должен превышать больше 50 символов!' 
+            }
           }
-          if (val.length > 50){
-            return 'Пароль не должен превышать больше 50 символов!' 
+          else{
+            return 'Логин не должен быть пустым!'
           }
+
           return true;
           
-        }.bind(this)
+        }
       },
-      username: "",
-      password: "",
+      username: null,
+      password: null,
+      wait: false
     };
+  },
+  computed: {
+    disBtn: function(){
+      return this.username && this.password ? false : true; 
+    }
   },
   methods: {
     doLogin: function() {
-      this.$router.push("account");
+      if (this.username && this.password ){
+        this.wait = true;
+        
+        this.axios.post(api.url.login, {
+          login: this.username,
+          password: this.password
+        })
+        .then(function(res){
+          console.loh(res);
+          setTimeout(function(){
+            this.$router.push("account");
+            this.wait = false;
+          }.bind(this),1000)
+
+        }.bind(this))
+        .catch(function(e){
+          this.wait = false;
+
+          console.log(e);
+        }.bind(this))
+      }
+
     }
   }
 };

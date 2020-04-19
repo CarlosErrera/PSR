@@ -9,6 +9,8 @@ export default {
         psrLeaderList: base_url + '/users',
         psrRegistrationList: base_url + '/psr-list-registration',
         psrClassficationList: base_url + '/classification',
-        psrVolunteerStatus: base_url + '/volunteer-status'
+        psrVolunteerStatus: base_url + '/volunteer-status',
+        login:  'http://localhost:8080' + '/login',
+        logout:  'http://localhost:8080' + '/logout'
     }
 }
