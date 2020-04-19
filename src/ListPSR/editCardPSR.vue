@@ -216,10 +216,9 @@ export default {
       this.dialog = true;
 
       this.$http
-        .put(api.url.psrDataList,{
-          id: this.cardData.id,
-          dto: this.cardData
-        })
+        .put(api.url.psrDataList+'/'+this.cardData.id,
+          this.cardData
+        )
         .then(
           function(response) {
 

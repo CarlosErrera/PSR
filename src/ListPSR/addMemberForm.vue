@@ -35,20 +35,31 @@
         </v-row>
 
         <v-row>
-          <v-radio-group :row="true" v-if="!memberIsExist" >
+          <v-radio-group :row="true" v-if="!memberIsExist" v-model="memberData.volunteer.sex"  >
             
-            <v-radio label="Мужской"></v-radio>
-            <v-radio label="Женский"></v-radio>
+            <v-radio label="Мужской" :value="true"></v-radio>
+            <v-radio label="Женский" :value="false"></v-radio>
             
           </v-radio-group>
         </v-row>
 
         <v-row>
-          <v-text-field v-if="!memberIsExist" label="Телеграмм участника" v-model="memberData.volunteer.fio"></v-text-field>
+          <v-text-field v-if="!memberIsExist" label="Телеграмм участника" v-model="memberData.volunteer.login"></v-text-field>
         </v-row>
 
         <v-row>
-          <v-text-field v-if="!memberIsExist"   label="Рейтинг"  ></v-text-field>
+          <!-- <v-text-field v-if="!memberIsExist"   label="Рейтинг"  ></v-text-field> -->
+          <v-combobox 
+            v-if="memberIsExist"
+            :items="classificationList"
+            item-text="name"
+            item-value="id"
+            v-model="classification"
+            
+            :clearable="true" 
+            
+            outlined 
+             label="Рейтинг"></v-combobox>
         </v-row>
 
 
@@ -61,31 +72,61 @@
         </v-row>
         
         <v-row>
-          <!-- <v-text-field label="РВП" v-model="memberData.startVolunteerTime"></v-text-field> -->
           <v-menu
             ref="rvp"
             v-model="menurvp"
             :close-on-content-click="false"
-            :return-value.sync="date"
+            :return-value.sync="rvpDate"
             transition="scale-transition"
             offset-y
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="memberData.startVolunteerTime"
+                v-model="rvpDate"
                 label="РВП"
                 prepend-icon="event"
                 readonly
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="memberData.startVolunteerTime" no-title scrollable>
+
+            <v-date-picker v-model="rvpDate" no-title scrollable>
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menurvp = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.rvp.save(date)">OK</v-btn>
+              <v-btn text color="primary" @click="$refs.rvp.save(rvpDate)">OK</v-btn>
             </v-date-picker>
           </v-menu>
+          <v-spacer></v-spacer>
+          <!-- время РВП -->
+          <v-dialog
+            ref="dialog"
+            v-model="rvpTimeModal"
+            :return-value.sync="rvpTime"
+            persistent
+            width="290px"
+          >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="rvpTime"
+              label="Выбрать время"
+              prepend-icon="access_time"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-time-picker
+            format="24hr"
+            v-if="rvpTimeModal"
+            v-model="rvpTime"
+            full-width
+          >
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="rvpTimeModal = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.dialog.save(rvpTime)">OK</v-btn>
+          </v-time-picker>
+        </v-dialog>
+          
         </v-row>
 
         <v-row>
@@ -94,26 +135,54 @@
             ref="rvo"
             v-model="menurvo"
             :close-on-content-click="false"
-            :return-value.sync="date"
+            :return-value.sync="rvoDate"
             transition="scale-transition"
             offset-y
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="memberData.endVolunteerTime"
+                v-model="rvoDate"
                 label="РВО"
                 prepend-icon="event"
                 readonly
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="memberData.endVolunteerTime" no-title scrollable>
+            <v-date-picker v-model="rvoDate" no-title scrollable>
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menurvo = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.rvo.save(date)">OK</v-btn>
+              <v-btn text color="primary" @click="$refs.rvo.save(rvoDate)">OK</v-btn>
             </v-date-picker>
           </v-menu>
+          <v-spacer></v-spacer>
+          <v-dialog
+            ref="rvoTimedialog"
+            v-model="rvoTimeModal"
+            :return-value.sync="rvoTime"
+            persistent
+            width="290px"
+          >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="rvoTime"
+              label="Выбрать время"
+              prepend-icon="access_time"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-time-picker
+            format="24hr"
+            v-if="rvoTimeModal"
+            v-model="rvoTime"
+            full-width
+          >
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="rvoTimeModal = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.rvoTimedialog.save(rvoTime)">OK</v-btn>
+          </v-time-picker>
+        </v-dialog>
         </v-row>
         <v-row>
           <v-text-field label="Примечание"></v-text-field>
@@ -160,47 +229,103 @@ export default {
   data: function(){
     return {
       date: new Date().toISOString().substr(0, 10),
+
       menurvp: false,  
       menurvo: false,
+
+      rvpTime: '',
+      rvpDate: '',
+      rvpTimeModal: false,
+      
+      rvoTime: '',
+      rvoDate: '',
+      rvoTimeModal: false,
+      
       dialog: false,
       memberIsExist: true,
-      memberData: {},
-      emptyObj: {} 
-    }
-  },
 
-  created: function(){
+      classificationList :[],
+      classification: {
+        id: null,
+        name: null
+      },
 
-    this.memberData =  {
-        departureAddress: "",
-        endVolunteerTime: "",
-        psr: {
-          comment: "",
-          endDate: "",
-          name: "",
-          psrState: {
-            id: 0,
-            name: ""
-          },
-          startDate: ""
-        },
+      memberData: {
+        // departureAddress: "" ,
+        // endVolunteerTime: "",
+        // psr: {
+        //   comment: "",
+        //   endDate: "",
+        //   name: "",
+        //   psrState: {
+        //     id: '',
+        //     name: ""
+        //   },
+        //   startDate: ""
+        // },
         shuttleNum: "",
-        startVolunteerTime: "",
+
+        // startVolunteerTime: '' ,
         volunteer: {
+          // classification: {
+          //   id: null,
+          //   name: null
+          // },
           fio: "",
           login: "",
           phone: "",
-          sex: true
+          sex: null
         },
-        volunteerStatus: {
-          name: ""
-        }
-      }
+        // volunteerStatus: {
+        //   name: ""
+        // }
+      },
+    }
   },
+  created: function(){
+    this.getClassificationList();
+  },
+  watch:{
+    memberIsExist: function(){
+      
+      this.memberData = {
+        shuttleNum: "",
+        volunteer: {
+
+          fio: "",
+          login: "",
+          phone: "",
+          sex: null
+        },
+      };
+      this.classification = {
+        id: null,
+        name: null
+      };
+    }
+  },
+
   methods:{
+    getClassificationList : function(){
+      this.axios.get(api.url.psrClassficationList)
+      .then(function(res){
+        
+        this.classificationList = res.data;
+
+      }.bind(this))
+      .catch(function(err){
+        console.log(err);
+      }.bind(this))
+    },
     saveHandler: function(){
       this.dialog = true;
-      this.axios.post(api.url.psrRegistrationList, this.memberData)
+      this.memberData.startVolunteerTime = this.rvpDate + ' ' + this.rvpTime + ':00';
+      this.memberData.endVolunteerTime = this.rvoDate + ' ' + this.rvoTime + ':00';
+      if (this.memberIsExist){
+        this.memberData.classification = this.classification;
+      }
+
+      this.axios.post(api.url.psrRegistrationList,this.memberData) 
       .then(function(response){
 
           setTimeout(function(){
