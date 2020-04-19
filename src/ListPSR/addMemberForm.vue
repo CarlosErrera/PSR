@@ -185,7 +185,7 @@
         </v-dialog>
         </v-row>
         <v-row>
-          <v-text-field label="Примечание"></v-text-field>
+          <v-text-field v-model="memberData.volunteer.comment" label="Примечание"></v-text-field>
         </v-row>
       </v-container>
     </v-card-text>
@@ -271,6 +271,7 @@ export default {
           //   id: null,
           //   name: null
           // },
+          comment: "",
           fio: "",
           login: "",
           phone: "",
@@ -287,7 +288,7 @@ export default {
   },
   watch:{
     memberIsExist: function(){
-      
+
       this.memberData = {
         shuttleNum: "",
         volunteer: {

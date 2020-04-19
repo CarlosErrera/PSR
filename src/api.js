@@ -8,6 +8,7 @@ export default {
         psrStateList: base_url + '/psr-state',
         psrLeaderList: base_url + '/users',
         psrRegistrationList: base_url + '/psr-list-registration',
-        psrClassficationList: base_url + '/classification'
+        psrClassficationList: base_url + '/classification',
+        psrVolunteerStatus: base_url + '/volunteer-status'
     }
 }

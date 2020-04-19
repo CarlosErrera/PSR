@@ -154,39 +154,6 @@ export default {
       .then( function(response){        
         // this.psrMembers =  this.psrMembers.concat(response.data);
         this.psrMembers =  response.data;
-        /*
-        this.psrMembers =  response.data.map(function(member){
-          return {
-            id: member.id,
-            psr: {
-              id: member.psr.id,
-              name:member.psr.name ,
-              startDate:member.psr.startDate,
-              endDate: member.psr.endDate,
-              psrState: {
-                value: member.psr.psrState.id,
-                text: member.psr.psrState.name
-              },
-              comment: member.psr.comment
-            },
-            station: member.station,
-            psrLeader: {
-              // login: member.psrLeader.login,
-              text: member.psrLeader.fio,
-              value: member.psrLeader.id
-            },
-            psrRegisteredUser: {
-              login: member.psrRegisteredUser.login,
-              fio: member.psrRegisteredUser.fio,
-              id: member.psrRegisteredUser.id
-            },
-            objectInfo: member.objectInfo,
-            content: member.content,
-            photo: member.photo
-          }
-
-        });
-        */
 
       }.bind(this))
       .catch(function(err){
@@ -197,14 +164,21 @@ export default {
 
       this.cardProps = Object.assign({}, item);
 
-      this.editCardPSR_isVisible ? 
-        this.editCardPSR_isVisible = false : 
-        this.editCardPSR_isVisible = true;
+      if ( this.editCardPSR_isVisible ){
+        this.editCardPSR_isVisible = false
+        this.initialize();
+      }
+      else{
+        this.editCardPSR_isVisible = true
+      }
     },
     addCardPSRHandler: function(){
-      this.addCardPSR_isVisible ? 
-        this.addCardPSR_isVisible = false : 
+      if (this.addCardPSR_isVisible){ 
+        this.addCardPSR_isVisible = false;
+        this.initialize();
+      }else{
         this.addCardPSR_isVisible = true; 
+      }
     },
     RegistrationListHandler: function(){
       this.RegistrationList_isVisible ?

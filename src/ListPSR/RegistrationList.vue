@@ -26,8 +26,11 @@
             <v-select 
                 dense
                 outlined
+                item-text="name"
+                item-value="id"
                 :disabled="stateDisable"
                 label="Изменить статус"  
+                v-on:change="changeVolunteerStatus"
                 :items="statusStore">
             </v-select>
             <v-spacer></v-spacer>
@@ -98,46 +101,7 @@
 <script>
 import addMemberForm from './addMemberForm';
 import api from '../api';
-/*
-[
-  {
-    "departureAddress": "string",
-    "endVolunteerTime": "2020-04-05T14:12:20.678Z",
-    "id": 0,
-    "psr": {
-      "comment": "string",
-      "endDate": "string",
-      "id": 0,
-      "name": "string",
-      "psrState": {
-        "id": 0,
-        "name": "string"
-      },
-      "startDate": "string"
-    },
-    "shuttleNum": "string",
-    "startVolunteerTime": "2020-04-05T14:12:20.678Z",
-    "volunteer": {
-      "classification": {
-        "id": 0,
-        "name": "string"
-      },
-      "comment": "string",
-      "equipment": "string",
-      "fio": "string",
-      "id": 0,
-      "login": "string",
-      "phone": "string",
-      "psrListDesc": "string",
-      "sex": true
-    },
-    "volunteerStatus": {
-      "id": 0,
-      "name": "string"
-    }
-  }
-]
-*/
+
 
 export default {
   components:{
@@ -148,18 +112,10 @@ export default {
       formTitle: "Лист Регистрации",
       members: [],
       isActiveAddMemberForm: false,
-      selectedItems:[],
+      selectedIds:[],
       stateDisable: true,
-      statusStore:[
-        {
-          text: 'Пришел',
-          value: '1'
-        },
-        {
-          text: 'Ушел',
-          value: '2'
-        },
-      ],
+      statusStore:[],
+      
       headers: [
         { text: "пп", value: "id", sortable: false },
         { text: "Участник", value: "fio", sortable: false },
@@ -174,25 +130,52 @@ export default {
   },
   created() {
     this.initialize();
-    this.loadRegistrationList();
+
   },
   methods: {
     initialize: function() {
+      this.loadRegistrationList();
+      this.loadVolunteerStatus();
+    },
+    changeVolunteerStatus: function(item){
+      console.log(item);
+      console.log(this.selectedIds);
+      this.axios.put(api.url.psrRegistrationList+'/volunteer-status', {
+        ids: this.selectedIds,
+        volunteerStatus:{
+          id: item
+        }
+      })
+      .then(function(){
+        this.initialize();
 
+      }.bind(this))
+      .catch(function(e){
+        console.log(e);
+      }.bind(this))
     },
     ItemSelectedHandler: function(items){
-      console.log(items);
+      
       if (items.length >0){
         this.stateDisable = false
       }
       else{
         this.stateDisable = true
       }
-      // this.selectedItems = items.map(function(item){
-      //   return {
+      
+      this.selectedIds = items.map(function(item){
+        return item.id;
+      });
+    },
+    loadVolunteerStatus: function(){
+      this.axios.get(api.url.psrVolunteerStatus)
+      .then(function(res){
+        this.statusStore = res.data;
+      }.bind(this))
 
-      //   }
-      // });
+      .catch(function(e){
+        console.log(e)
+      }.bind(this))
     },
     loadRegistrationList: function(){
 

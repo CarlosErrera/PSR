@@ -135,11 +135,11 @@ export default {
                 fio: "",
                 password: ''
               },
-              psrRegisteredUser: {
-                "login": "albina",
-                "fio": "Альбина Гараева",
-                "id": 2
-              },
+              // psrRegisteredUser: {
+              //   "login": "albina",
+              //   "fio": "Альбина Гараева",
+              //   "id": 2
+              // },
               objectInfo: "",
               content: "",
               photo: ''
@@ -148,12 +148,12 @@ export default {
         }
     },
   created: function(){
-      this.loadPsrStateList();
-      this.loadPsrLeaderList()
+      this.init()
   },
   methods: {
     init: function(){
-
+      this.loadPsrStateList();
+      this.loadPsrLeaderList()
     },
     SaveHandler: function(){
         this.dialog = true;
