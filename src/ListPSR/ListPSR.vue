@@ -22,19 +22,12 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
 
-        <v-btn color="primary" @click="addCardPSRHandler">{{ createNewPSR }}</v-btn>
+        <v-btn color="primary" @click="addCardPSRHandler">Создать новый ПСР</v-btn>
 
 
 
       </v-toolbar>
     </template>
-
-    <!-- <template v-slot:item.Status="{ item }">
-      <span
-        v-bind:class="{ defaultStatus: item.Status, statusIsOpen: !item.Status }"
-      >{{ item.Status | statusFilter}}</span>
-    </template> -->
-
 
     <template v-slot:item.id="{ item }">
       <span> {{ item.psr.id }}</span>
@@ -56,10 +49,6 @@
       <span> {{item.psr.psrState.name }}</span>
     </template>
 
-    <!-- <template v-slot:item.action>
-      <v-icon small class="mr-2" @click="showCardPSR">edit</v-icon>
-    </template> -->
-
     <template v-slot:item.cardPSR="{item}">
       <v-btn color="primary" rounded small @click="editCardPSRHandler(item)">Открыть</v-btn>
     </template>
@@ -74,120 +63,8 @@
   </v-data-table>
   </div>
 </template>
-<script>
-import editCardPSR from './editCardPSR';
-import addCardPSR from './addCardPSR';
-import RegistrationList from './RegistrationList';
-import api from '../api';
+<script src="./ListPSRController.js">
 
-export default {
-  
-  components:{
-    editCardPSR,
-    RegistrationList,
-    addCardPSR
-  },
-  data: () => ({ 
-    addCardPSR_isVisible: false,
-    editCardPSR_isVisible: false,
-    RegistrationList_isVisible: false,
-    cardProps: {},
-    createNewPSR: "Создать новый ПСР",
-    /*
-    "psr": {
-      "comment": "string",
-      "endDate": "string",
-      "id": 0,
-      "name": "string",
-      "psrState": {
-        "id": 0,
-        "name": "string"
-      },
-      "startDate": "string"
-    },
-    */
-    headers: [
-      { text: "Номер ПСР", value: "id", sortable: false },
-      { text: "Населенный пункт", value: "name" },
-      { text: "Начало ПСР", value: "startDate" },
-      { text: "Окончание ПСР", value: "endDate" },
-      { text: "Статус", value: "psrState" },
-      { text: "Карточка ПСР", value: "cardPSR", sortable: false },
-      { text: "Лист Регистрации", value: "registrList", sortable: false }
-    ],
-    psrMembers: [],
-    
-    
-  }),
-
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "Создание новой ПСР" : "Карточка ПСР";
-    }
-  },
-
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  },
-  filters: {
-    statusFilter: function(val) {
-      if (val) {
-        return "Завершено";
-      } else {
-        return "Открыт";
-      }
-    }
-  },
-
-  created() {
-    this.initialize();
-  },
-
-  methods: {
-    initialize: function() {
-      this.loadPsrList();
-    },
-    loadPsrList: function(){
-      this.$http.get(api.url.psrDataList)
-      .then( function(response){        
-        // this.psrMembers =  this.psrMembers.concat(response.data);
-        this.psrMembers =  response.data;
-
-      }.bind(this))
-      .catch(function(err){
-        console.log(err);
-      }.bind(this))
-    },
-    editCardPSRHandler: function(item){
-
-      this.cardProps = Object.assign({}, item);
-
-      if ( this.editCardPSR_isVisible ){
-        this.editCardPSR_isVisible = false
-        this.initialize();
-      }
-      else{
-        this.editCardPSR_isVisible = true
-      }
-    },
-    addCardPSRHandler: function(){
-      if (this.addCardPSR_isVisible){ 
-        this.addCardPSR_isVisible = false;
-        this.initialize();
-      }else{
-        this.addCardPSR_isVisible = true; 
-      }
-    },
-    RegistrationListHandler: function(){
-      this.RegistrationList_isVisible ?
-        this.RegistrationList_isVisible = false :
-        this.RegistrationList_isVisible = true
-    }
-
-  }
-};
 </script>
 <style scoped>
 .statusIsOpen {

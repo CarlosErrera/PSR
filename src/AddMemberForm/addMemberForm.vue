@@ -22,10 +22,12 @@
           <!-- <v-text-field label="РПСР"></v-text-field>  -->
           <v-combobox 
             v-if="memberIsExist"
-            v-model="memberData.volunteer.fio"
+            v-model="memberData.volunteer"
             :value="memberData.volunteer.fio"
+            :items="volunteerList"
+            item-text="fio"
+            item-value="id"
             :clearable="true" 
-            :disabled="true" 
             outlined 
             label="Имя, Фамилия"></v-combobox>
         </v-row>
@@ -50,11 +52,11 @@
         <v-row>
           <!-- <v-text-field v-if="!memberIsExist"   label="Рейтинг"  ></v-text-field> -->
           <v-combobox 
-            v-if="memberIsExist"
+            
             :items="classificationList"
             item-text="name"
             item-value="id"
-            v-model="classification"
+            v-model="memberData.volunteer.classification"
             
             :clearable="true" 
             
@@ -222,131 +224,4 @@
     </v-card-actions>
   </v-card>
 </template>
-<script>
-import api from '../api';
-
-export default {
-  data: function(){
-    return {
-      date: new Date().toISOString().substr(0, 10),
-
-      menurvp: false,  
-      menurvo: false,
-
-      rvpTime: '',
-      rvpDate: '',
-      rvpTimeModal: false,
-      
-      rvoTime: '',
-      rvoDate: '',
-      rvoTimeModal: false,
-      
-      dialog: false,
-      memberIsExist: true,
-
-      classificationList :[],
-      classification: {
-        id: null,
-        name: null
-      },
-
-      memberData: {
-        // departureAddress: "" ,
-        // endVolunteerTime: "",
-        // psr: {
-        //   comment: "",
-        //   endDate: "",
-        //   name: "",
-        //   psrState: {
-        //     id: '',
-        //     name: ""
-        //   },
-        //   startDate: ""
-        // },
-        shuttleNum: "",
-
-        // startVolunteerTime: '' ,
-        volunteer: {
-          // classification: {
-          //   id: null,
-          //   name: null
-          // },
-          comment: "",
-          fio: "",
-          login: "",
-          phone: "",
-          sex: null
-        },
-        // volunteerStatus: {
-        //   name: ""
-        // }
-      },
-    }
-  },
-  created: function(){
-    this.getClassificationList();
-  },
-  watch:{
-    memberIsExist: function(){
-
-      this.memberData = {
-        shuttleNum: "",
-        volunteer: {
-
-          fio: "",
-          login: "",
-          phone: "",
-          sex: null
-        },
-      };
-      this.classification = {
-        id: null,
-        name: null
-      };
-    }
-  },
-
-  methods:{
-    getClassificationList : function(){
-      this.axios.get(api.url.psrClassficationList)
-      .then(function(res){
-        
-        this.classificationList = res.data;
-
-      }.bind(this))
-      .catch(function(err){
-        console.log(err);
-      }.bind(this))
-    },
-    saveHandler: function(){
-      this.dialog = true;
-      this.memberData.startVolunteerTime = this.rvpDate + ' ' + this.rvpTime + ':00';
-      this.memberData.endVolunteerTime = this.rvoDate + ' ' + this.rvoTime + ':00';
-      if (this.memberIsExist){
-        this.memberData.classification = this.classification;
-      }
-
-      this.axios.post(api.url.psrRegistrationList,this.memberData) 
-      .then(function(response){
-
-          setTimeout(function(){
-            this.dialog = false;
-          }.bind(this),1000)
-
-          console.log(response)
-      }.bind(this))
-      .catch(function(err){
-
-        setTimeout(function(){
-          this.dialog = false;
-        }.bind(this),1000)
-
-        console.log(err);
-      }.bind(this))
-    },
-    close: function(){
-      this.$emit('close')
-    }
-  }
-};
-</script>
+<script src="./addMemberFormController.js"></script>

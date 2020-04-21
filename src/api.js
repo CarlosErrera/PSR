@@ -1,5 +1,5 @@
-// var base_url = 'http://localhost:8080/psr/api';
-var base_url = '/psr/api'; 
+var base_url = 'http://localhost:8080/psr/api';
+// var base_url = '/psr/api'; 
 
 export default {
     url:{
@@ -10,7 +10,8 @@ export default {
         psrRegistrationList: base_url + '/psr-list-registration',
         psrClassficationList: base_url + '/classification',
         psrVolunteerStatus: base_url + '/volunteer-status',
-        login: /* 'http://localhost:8080'  +*/ '/login',
-        logout:  /* 'http://localhost:8080'  +*/'/logout'
+        psrVolunteer: base_url + '/volunteers',
+        login:  'http://localhost:8080'  + '/login',
+        logout:   'http://localhost:8080'  +'/logout'
     }
 }

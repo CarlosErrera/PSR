@@ -54,16 +54,17 @@
           <!-- <v-banner app  color="primary" dark > Система управления поисковыми группами </v-banner> -->
 
           <v-card-text>
-            <v-form>
+            <v-form > 
               <!-- <v-text-field label="Логин" name="login" v-model="username" type="text" /> -->
               <v-text-field label="Логин" name="login" v-model="username" :value="username" type="text" :rules="[rules.validationUsername]"  />
 
               <v-text-field label="Пароль" name="password" v-model="password" :value="password"  type="password" :rules="[rules.validationPassword]"/>
+
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn  color="primary" @click="doLogin" :disabled="disBtn ">Войти</v-btn>
+            <v-btn  color="primary"  @click="doLogin" :disabled="disBtn ">Войти</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -125,6 +126,7 @@ export default {
     }
   },
   methods: {
+
     doLogin: function() {
       if (this.username && this.password ){
         this.wait = true;
@@ -134,11 +136,11 @@ export default {
           password: this.password
         })
         .then(function(res){
-          console.loh(res);
-          setTimeout(function(){
-            this.$router.push("account");
-            this.wait = false;
-          }.bind(this),1000)
+          console.log(res);
+         
+          this.$router.push("account");
+          this.wait = false;
+          
 
         }.bind(this))
         .catch(function(e){
