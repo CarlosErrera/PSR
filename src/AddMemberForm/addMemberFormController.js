@@ -107,6 +107,10 @@ export default {
       this.memberData.psr.id = this.psrId;
       this.memberData.volunteerStatus.id = 1
 
+      // if (!this.memberIsExist){
+      //   this.memberData.volunteer.id = 5
+      // }
+
       // if (this.memberIsExist){
       //   this.memberData.classification = this.classification;
       // }
