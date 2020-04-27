@@ -12,15 +12,13 @@
       >
         Succeful
       </v-alert>
-    </div> -->
+    </div>-->
     <v-snackbar
       :color="'success'"
       :timeout="2000"
       :top="true"
       v-model="success_snackbar"
-    >
-    {{ "Сохранено"}}
-    </v-snackbar>
+    >{{ "Сохранено"}}</v-snackbar>
 
     <v-snackbar
       :color="'pink darken-1'"
@@ -29,8 +27,8 @@
       :multi-line="true"
       v-model="error_snackbar"
     >
-    {{ "Ошибка сохранения !"}}
-    {{ errorMsg }}
+      {{ "Ошибка сохранения !"}}
+      {{ errorMsg }}
     </v-snackbar>
 
     <v-card-title>
@@ -61,42 +59,68 @@
 
         <v-row>
           <!-- <v-text-field label="РПСР"></v-text-field>  -->
-          <v-combobox 
+          <v-combobox
             v-model="cardData.psrLeader"
             :value="cardData.psrLeader.login"
-            :clearable="true" 
+            :clearable="true"
             item-value="login"
             item-text="fio"
-            :items="psrLeaderList" 
-            outlined 
-            label="Координатор"></v-combobox>
+            :items="psrLeaderList"
+            outlined
+            label="Координатор"
+          ></v-combobox>
         </v-row>
 
         <v-row>
-          <v-text-field  label="Регистратор" :disabled="true" outlined :value="cardData.psrRegisteredUser.fio " ></v-text-field>
+          <v-combobox
+            v-model="cardData.psrRegisteredUser"
+            :value="cardData.psrRegisteredUser.login"
+            :clearable="true"
+            item-value="login"
+            item-text="fio"
+            :items="psrLeaderList"
+            outlined
+            label="Регистратор"
+          ></v-combobox>
+          <!-- <v-text-field
+            label="Регистратор"
+            :disabled="true"
+            outlined
+            :value="cardData.psrRegisteredUser.fio "
+          ></v-text-field> -->
           <!-- <v-select :clearable="true" :items="memberFIO" outlined label="Регистратор"></v-select> -->
         </v-row>
 
         <v-row>
-          <v-text-field label="Штаб" v-model="cardData.station" :value="cardData.station" ></v-text-field>
+          <v-text-field label="Штаб" v-model="cardData.station" :value="cardData.station"></v-text-field>
         </v-row>
 
         <v-row>
-          <v-textarea label="Первичная информация" v-model="cardData.content" :value="cardData.content"></v-textarea>
+          <v-textarea
+            label="Первичная информация"
+            v-model="cardData.content"
+            :value="cardData.content"
+          ></v-textarea>
         </v-row>
 
         <v-row>
-          <v-textarea label="Основная информация" v-model="cardData.objectInfo"  :value="cardData.objectInfo"></v-textarea>
+          <v-textarea
+            label="Основная информация"
+            v-model="cardData.objectInfo"
+            :value="cardData.objectInfo"
+          ></v-textarea>
         </v-row>
-        
+
         <v-row>
           <!-- <v-select label="Статус" v-model="cardData.psr.psrState" :value="cardData.psr.psrState" :items="psrStateList"></v-select> -->
-          <v-combobox label="Статус"  
-            v-model="cardData.psr.psrState" 
+          <v-combobox
+            label="Статус"
+            v-model="cardData.psr.psrState"
             item-text="name"
             item-value="id"
-            :value="cardData.psr.psrState.id"  
-            :items="psrStateList"></v-combobox>
+            :value="cardData.psr.psrState.id"
+            :items="psrStateList"
+          ></v-combobox>
         </v-row>
 
         <v-row>
@@ -105,25 +129,14 @@
       </v-container>
     </v-card-text>
     <!-- loading -->
-        <v-dialog
-          v-model="dialog"
-          hide-overlay
-          persistent
-          width="300"
-        >
-          <v-card
-            color="primary"
-            dark>
-            <v-card-text>
-              Пожалуйста, подождите...
-              <v-progress-linear
-                indeterminate
-                color="white"
-                class="mb-0"
-              ></v-progress-linear>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
+    <v-dialog v-model="dialog" hide-overlay persistent width="300">
+      <v-card color="primary" dark>
+        <v-card-text>
+          Пожалуйста, подождите...
+          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <!-- /loading -->
 
     <v-card-actions>
@@ -134,5 +147,4 @@
   </v-card>
 </template>
 <script src="./editCardPSRController.js">
-
 </script>
