@@ -3,6 +3,35 @@
     <!-- <v-dialog v-model="RegistrationList" :fullscreen="true">
           <RegistrationList v-on:closeRegistrationList = "closeRegistrationListHandler"/>
     </v-dialog>-->
+    <!-- <div style="z-index:99;">
+      <v-alert  
+        :value="true"
+        outlined
+        type="success"
+        text
+      >
+        Succeful
+      </v-alert>
+    </div> -->
+    <v-snackbar
+      :color="'success'"
+      :timeout="2000"
+      :top="true"
+      v-model="success_snackbar"
+    >
+    {{ "Сохранено"}}
+    </v-snackbar>
+
+    <v-snackbar
+      :color="'pink darken-1'"
+      :timeout="2000"
+      :top="true"
+      :multi-line="true"
+      v-model="error_snackbar"
+    >
+    {{ "Ошибка сохранения !"}}
+    {{ errorMsg }}
+    </v-snackbar>
 
     <v-card-title>
       <v-container>
@@ -33,7 +62,7 @@
         <v-row>
           <!-- <v-text-field label="РПСР"></v-text-field>  -->
           <v-combobox 
-            v-model="cardData.psrLeader.fio"
+            v-model="cardData.psrLeader"
             :value="cardData.psrLeader.login"
             :clearable="true" 
             item-value="login"
@@ -44,7 +73,7 @@
         </v-row>
 
         <v-row>
-          <!-- <v-text-field  label="Координатор"></v-text-field> -->
+          <v-text-field  label="Регистратор" :disabled="true" outlined :value="cardData.psrRegisteredUser.fio " ></v-text-field>
           <!-- <v-select :clearable="true" :items="memberFIO" outlined label="Регистратор"></v-select> -->
         </v-row>
 
@@ -104,143 +133,6 @@
     </v-card-actions>
   </v-card>
 </template>
-<script>
-import api from '../api';
-export default {
-  props: ["cardProps"],
-  /*
-    "id": 1,
-    "psr": {
-      "id": 1,
-      "name": "г. Казань, Иванов Иван Иванович, ул. Чуйкова, 1965 г.р.",
-      "startDate": "2020-03-01",
-      "endDate": "2020-03-02",
-      "psrState": {
-        "id": 2,
-        "name": "Идет поиск"
-      },
-      "comment": "Найден Жив"
-    },
-    "station": "г. Казань, ул. Чуйкова, 54а (Стоянка) [55.835608, 49.141352]",
-    "psrLeader": {
-      "login": "artem",
-      "fio": "Артем Латышев",
-      "id": 1
-    },
-    "psrRegisteredUser": {
-      "login": "albina",
-      "fio": "Альбина Гараева",
-      "id": 2
-    },
-    "objectInfo": "Пропал М/82, в 8:00, заявка 112, г. Казань, ул. Чуйкова",
-    "content": "Инфомрация по второму дню поиска",
-    "photo": null
-    
-    */
+<script src="./editCardPSRController.js">
 
-  data: function() {
-    return {
-      cardData:this.cardProps,
-      dialog: false,
-      formTitle: "Карточка ПСР",
-      psrStateList: [],
-      psrLeaderList: [],
-    };
-  },
-  created: function() {
-    this.init();
-    this.loadPsrStateList();
-    this.loadPsrLeaderList();
-  },
-  methods: {
-    init: function() {
-      console.log(this.cardData);
-    },
-    loadPsrStateList: function() {
-      this.$http
-        .get(api.url.psrStateList)
-        .then(
-          function(response) {
-            // this.psrStateList =  this.psrStateList.concat(response.data);
-            this.psrStateList = response.data;
-            /*
-            this.psrStateList = response.data.map(function(state) {
-              return {
-                text: state.name,
-                value: state.id
-              };
-            });
-            */
-          }.bind(this)
-        )
-        .catch(function(err) {
-          console.log(err);
-        });
-    },
-    loadPsrLeaderList: function(){
-      this.$http
-        .get(api.url.psrLeaderList)
-        .then(
-          function(response) {
-            // this.psrStateList =  this.psrStateList.concat(response.data);
-            this.psrLeaderList = response.data;
-            /*
-            this.psrLeaderList = response.data.map(function(user){
-              return {
-                text: user.fio,
-                value: user.id,
-              }
-            })
-            */
-          }.bind(this)
-        )
-        .catch(function(err) {
-          console.log(err);
-        });
-    },
-    Save: function(){
-      // var obj = Object.create(this.cardData);
-      
-      // var obj1 = Object.create(obj);
-
-      // obj.psr.psrState = {
-      //   id : obj1.psr.psrState.value,
-      //   name: obj1.psr.psrState.text,
-      // };
-
-      // obj.psrLeader = {
-      //   id : obj1.psrLeader.value,
-      //   fio: obj1.psrLeader.text,
-      // }
-
-      this.dialog = true;
-
-      this.$http
-        .put(api.url.psrDataList+'/'+this.cardData.id,
-          this.cardData
-        )
-        .then(
-          function(response) {
-
-            setTimeout(function(){
-              this.dialog = false;
-            }.bind(this),1000)
-
-            console.log(response);
-          }.bind(this)
-        )
-        .catch(function(err) {
-
-            setTimeout(function(){
-              this.dialog = false;
-            }.bind(this),1000)
-
-          console.log(err);
-        }.bind(this));      
-    },
-    close: function() {
-      this.$emit("closeCardPSR");
-    }
-  }
-};
 </script>
