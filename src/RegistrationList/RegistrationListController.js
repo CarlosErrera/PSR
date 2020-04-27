@@ -63,7 +63,7 @@ export default {
       }
       
       this.selectedIds = items.map(function(item){
-        return item.id;
+        return item.volunteer.id;
       });
     },
     loadVolunteerStatus: function(){
