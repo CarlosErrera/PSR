@@ -24,6 +24,10 @@ export default {
       classificationList :[],
       volunteerList: [],
 
+      success_snackbar: false,
+      error_snackbar: false,
+      errorMsg: "",
+
       memberData: {
         shuttleNum: "",
         psr:{
@@ -116,19 +120,21 @@ export default {
       // }
 
       this.axios.post(api.url.psrRegistrationList,this.memberData) 
-      .then(function(response){
+      .then(function(){
 
+          this.success_snackbar = true;
+          this.dialog = false;
           setTimeout(function(){
-            this.dialog = false;
-          }.bind(this),1000)
-
-          console.log(response)
+            this.close();
+          }.bind(this),2000)
+          
       }.bind(this))
       .catch(function(err){
 
-        setTimeout(function(){
-          this.dialog = false;
-        }.bind(this),1000)
+        this.error_snackbar = true;
+        this.dialog = false;
+        this.errorMsg = err;
+        
 
         console.log(err);
       }.bind(this))

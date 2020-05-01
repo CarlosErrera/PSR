@@ -72,7 +72,7 @@ export default {
     loadVolunteerStatus: function(){
       this.axios.get(api.url.psrVolunteerStatus)
       .then(function(res){
-        this.statusStore = res.data;
+        this.statusStore = this.statusStore.concat(res.data);
       }.bind(this))
 
       .catch(function(e){
@@ -84,6 +84,7 @@ export default {
       this.axios.get( api.url.psrRegistrationList+'/psr/'+ this.psrID)
       .then(function(response){
         console.log(response.data);
+        this.members = [];
           this.members = this.members.concat(response.data);
       }.bind(this))
       .catch(function(e){

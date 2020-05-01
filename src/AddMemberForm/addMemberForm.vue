@@ -1,5 +1,23 @@
 <template>
   <v-card>
+    <v-snackbar
+      :color="'success'"
+      :timeout="2000"
+      :top="true"
+      v-model="success_snackbar"
+    >{{ "Сохранено"}}</v-snackbar>
+
+    <v-snackbar
+      :color="'pink darken-1'"
+      :timeout="2000"
+      :top="true"
+      :multi-line="true"
+      v-model="error_snackbar"
+    >
+      {{ "Ошибка сохранения !"}}
+      {{ errorMsg }}
+    </v-snackbar>
+    
     <v-card-title>
       <v-container>
         <v-row>
