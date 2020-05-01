@@ -81,7 +81,7 @@ export default {
     },
     loadRegistrationList: function(){
 
-      this.axios.get( api.url.psrRegistrationList+'/'+ this.psrID)
+      this.axios.get( api.url.psrRegistrationList+'/psr/'+ this.psrID)
       .then(function(response){
         console.log(response.data);
           this.members = this.members.concat(response.data);
