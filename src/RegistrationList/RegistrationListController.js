@@ -6,6 +6,8 @@ export default {
   components:{
     addMemberForm
   },
+  props:['cardProps'],
+
   data: function() {
     return {
       
@@ -14,6 +16,7 @@ export default {
       selectedIds:[],
       stateDisable: true,
       statusStore:[],
+      psrID: this.cardProps,
       
       headers: [
         { text: "пп", value: "id", sortable: false },
@@ -78,9 +81,10 @@ export default {
     },
     loadRegistrationList: function(){
 
-      this.axios.get( api.url.psrRegistrationList)
+      this.axios.get( api.url.psrRegistrationList+'/'+ this.psrID)
       .then(function(response){
-          this.members =  response.data;
+        console.log(response.data);
+          this.members = this.members.concat(response.data);
       }.bind(this))
       .catch(function(e){
           console.log(e);

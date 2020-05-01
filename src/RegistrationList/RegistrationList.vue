@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-dialog v-model="isActiveAddMemberForm" max-width="700">
-      <addMemberForm v-bind:ListPsrId="members[0].psr.id" v-if="isActiveAddMemberForm" v-on:close="closeMemberForm"/>
+      <addMemberForm v-bind:ListPsrId="psrID" v-if="isActiveAddMemberForm" v-on:close="closeMemberForm"/>
     </v-dialog>
     <v-card-title>
 

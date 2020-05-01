@@ -12,7 +12,7 @@
 
         <!-- Registration list  -->
         <v-dialog v-model="RegistrationList_isVisible" :fullscreen="true" >
-          <RegistrationList v-if="RegistrationList_isVisible" v-on:closeRegistrationList="RegistrationListHandler"></RegistrationList>
+          <RegistrationList v-if="RegistrationList_isVisible" v-bind:cardProps="cardProps.psr.id" v-on:closeRegistrationList="RegistrationListHandler"></RegistrationList>
         </v-dialog>
   
   <v-data-table :headers="headers" :items="psrMembers"  class="elevation-1">
@@ -53,8 +53,8 @@
       <v-btn color="primary" rounded small @click="editCardPSRHandler(item)">Открыть</v-btn>
     </template>
 
-    <template v-slot:item.registrList>
-      <v-btn color="orange" rounded small @click="RegistrationListHandler">Открыть</v-btn>
+    <template v-slot:item.registrList="{item}">
+      <v-btn color="orange" rounded small @click="RegistrationListHandler(item)">Открыть</v-btn>
     </template>
 
     <template v-slot:no-data-text>

@@ -16,7 +16,6 @@ export default {
     RegistrationList_isVisible: false,
     cardProps: {},
     
-
     headers: [
       { text: "Номер ПСР", value: "id", sortable: false },
       { text: "Населенный пункт", value: "name" },
@@ -69,7 +68,10 @@ export default {
         this.addCardPSR_isVisible = true; 
       }
     },
-    RegistrationListHandler: function(){
+    RegistrationListHandler: function(item){
+      
+      this.cardProps = Object.assign({}, item);
+
       this.RegistrationList_isVisible ?
         this.RegistrationList_isVisible = false :
         this.RegistrationList_isVisible = true

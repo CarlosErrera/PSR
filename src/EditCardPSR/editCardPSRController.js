@@ -44,7 +44,7 @@ export default {
         .then(
           function(response) {
             // this.psrStateList =  this.psrStateList.concat(response.data);
-            this.psrLeaderList = response.data;
+            this.psrLeaderList = response.data || [];
 
           }.bind(this)
         )
