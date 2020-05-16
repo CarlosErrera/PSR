@@ -91,7 +91,10 @@
         </template> -->
 
         </v-data-table>
+        <br>
         </v-row>
+        <NotificationForm/>
+        
         
     </v-card-text>
   </v-card>

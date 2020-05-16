@@ -11,6 +11,7 @@ export default {
         psrClassficationList: base_url + '/classification',
         psrVolunteerStatus: base_url + '/volunteer-status',
         psrVolunteer: base_url + '/volunteers',
+        notification: base_url + '/notification',
         // login:  'http://localhost:8080'  + '/login',
         // logout:   'http://localhost:8080'  +'/logout'
         login:   '/login',

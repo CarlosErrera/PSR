@@ -1,10 +1,12 @@
 import addMemberForm from '../AddMemberForm/addMemberForm';
+import NotificationForm from '../NotificationForm/NotificationForm';
 import api from '../api';
 
 
 export default {
   components:{
-    addMemberForm
+    addMemberForm,
+    NotificationForm
   },
   props:['cardProps'],
 
