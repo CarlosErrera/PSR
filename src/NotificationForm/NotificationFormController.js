@@ -9,6 +9,7 @@ export default {
             error_snackbar: false,
             errorMsg: '',
             message: '',
+            sendBtn: true,
             headers:[
                 // { text: "пп", value: "id", sortable: false },
                 { text: "Участник", value: "fio", sortable: false },
@@ -36,23 +37,32 @@ export default {
         sendNotification: function(item){
             console.log(item);
             console.log(this.selectedIds);
-            this.axios.post(api.url.notification, {
-              ids: this.selectedIds,
-              message:this.message
-            })
-            .then(function(){
-              this.init();
-              this.success_snackbar = true;
-      
-            }.bind(this))
-            .catch(function(e){
-              console.log(e);
-              this.error_snackbar = true;
-              this.errorMsg = e.message;
-
-            }.bind(this))
+            if ( this.message && this.selectedIds.length>0 ){
+                this.axios.post(api.url.notification, {
+                  ids: this.selectedIds,
+                  message:this.message
+                })
+                .then(function(){
+                  this.init();
+                  this.success_snackbar = true;
+          
+                }.bind(this))
+                .catch(function(e){
+                  console.log(e);
+                  this.error_snackbar = true;
+                  this.errorMsg = e.message;
+    
+                }.bind(this))
+            }
         },
         ItemSelectedHandler: function(items){
+            if (items.length >0){
+                this.sendBtn = false
+              }
+              else{
+                this.sendBtn = true
+              }
+            
             this.selectedIds = items.map(function(item){
                 return item.id;
             });

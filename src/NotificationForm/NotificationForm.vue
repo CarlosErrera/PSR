@@ -12,8 +12,7 @@
                     :disable-filtering="true"
                     :disable-sort="true"
                     :show-select="true"
-                    :hide-default-footer="true"
-                    
+                    :hide-default-footer="true"    
                     v-on:input = "ItemSelectedHandler"
                     :disable-pagination="true">
                 <template v-slot:item.classification="{ item }">
@@ -29,7 +28,8 @@
                     v-model="message"
                     :value="message"
                 ></v-textarea>
-                <v-btn color="blue" dense dark @click="sendNotification" >
+                <v-btn color="orange" 
+                    :disabled="(!Boolean(message)|| sendBtn)" dense  @click="sendNotification" >
                     Отправить оповещение
                 </v-btn>
 
