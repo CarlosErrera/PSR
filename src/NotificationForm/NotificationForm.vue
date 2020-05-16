@@ -44,7 +44,7 @@
         :timeout="2000"
         :top="true"
         v-model="success_snackbar"
-        >{{ "Сохранено"}}</v-snackbar>
+        >{{ "Отправлено"}}</v-snackbar>
 
         <v-snackbar
         :color="'pink darken-1'"

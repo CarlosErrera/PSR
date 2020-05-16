@@ -7,6 +7,7 @@ export default {
             selectedIds: [],
             success_snackbar: false,
             error_snackbar: false,
+            errorMsg: '',
             message: '',
             headers:[
                 // { text: "пп", value: "id", sortable: false },
@@ -20,7 +21,7 @@ export default {
     },
     methods:{
         init: function(){
-            this.selectedIds = [];
+            // this.selectedIds = [];
             this.message = ""
         },
         loadPsrVolunteer: function(){
@@ -47,6 +48,7 @@ export default {
             .catch(function(e){
               console.log(e);
               this.error_snackbar = true;
+              this.errorMsg = e.message;
 
             }.bind(this))
         },
