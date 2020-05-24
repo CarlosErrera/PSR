@@ -93,7 +93,9 @@
         </v-data-table>
         <br>
         </v-row>
-        <NotificationForm/>
+
+        <NotificationForm v-bind:psrId="psrID"/>
+        
         
         
     </v-card-text>

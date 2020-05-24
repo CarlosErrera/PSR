@@ -21,7 +21,7 @@ export default {
       psrID: this.cardProps,
       
       headers: [
-        { text: "пп", value: "id", sortable: false },
+        // { text: "пп", value: "id", sortable: false },
         { text: "Участник", value: "fio", sortable: false },
         { text: "Статус", value: "volunteerStatus", sortable: false },
         { text: "А", value: "shuttleNum", sortable: false },

@@ -45,6 +45,8 @@
 
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear()}}</span>
+      <v-spacer></v-spacer>
+      <v-checkbox dense label='Включить АвтоОбновления' v-model="autoUpdate" @click="autoUpdateHandler"></v-checkbox>
     </v-footer>
 </div>
 </template>>
@@ -53,12 +55,24 @@ import ListPSR from '../ListPSR/ListPSR.vue';
 import api from '../api';
 
 export default {
-    data: () => ({
-    }),
+    data: function(){
+      return{
+        autoUpdate: false
+      }
+    },
     components:{
       ListPSR
     },
+    created: function(){
+        localStorage.removeItem('autoUpdate');
+    },
     methods:{
+      autoUpdateHandler: function(){
+        localStorage.removeItem('autoUpdate');
+        if (this.autoUpdate){
+          localStorage.setItem('autoUpdate', true );
+        }
+      },
       exitAppHandler: function(){
         this.axios.get(api.url.logout)
         .then(function(){

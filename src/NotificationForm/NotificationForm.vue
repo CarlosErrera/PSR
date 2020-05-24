@@ -4,10 +4,11 @@
         <br/>
         <hr>
         <v-row>
-            <v-col class="d-flex" sm="6" md="5" cols="12" xs="12">
+            <v-col class="d-flex" sm="6" md="5" cols="12" xs="12" lg="5">
                 <v-data-table dense
                     :headers="headers" 
                     :items="volunteers" 
+                    
                     :mobile-breakpoint="100"
                     :disable-filtering="true"
                     :disable-sort="true"
@@ -15,23 +16,32 @@
                     :hide-default-footer="true"    
                     v-on:input = "ItemSelectedHandler"
                     :disable-pagination="true">
-                <template v-slot:item.classification="{ item }">
-                <span>{{ item.classification.name  }}</span>
-                </template> 
+
+                    <template v-slot:item.classification="{ item }">
+                    <span>{{ item.classification.name  }}</span>
+                    </template> 
 
                 </v-data-table>
             </v-col>
-            <v-col class="d-flex" sm="6" md="7" cols="12" xs="12">
+            <v-col class="d-flex" sm="6" md="7" cols="12" xs="12" lg="7">
                 <div style="width:100%;">
-                <v-textarea
-                    label="Текст оповещения"
-                    v-model="message"
-                    :value="message"
-                ></v-textarea>
-                <v-btn color="orange" 
-                    :disabled="(!Boolean(message)|| sendBtn)" dense  @click="sendNotification" >
-                    Отправить оповещение
-                </v-btn>
+                    <v-checkbox label="Регистрация ПСР" v-model="regPsrCheckbox"></v-checkbox>
+
+                    <v-textarea
+                        label="Текст оповещения"
+                        v-model="message"
+                        :height="120"
+                        :value="message"
+                    ></v-textarea>
+                    
+                    <v-btn color="orange" 
+                        dense 
+                        :disabled="(!Boolean(message)|| sendBtn)"   
+                        @click="sendNotification" >
+                        {{ "Отправить оповещение" }}
+                    </v-btn>
+                    
+                    
 
                 </div>
                 

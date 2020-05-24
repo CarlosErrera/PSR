@@ -64,7 +64,7 @@
         </v-row>
 
         <v-row>
-          <v-text-field v-if="!memberIsExist" label="Телеграмм участника" v-model="memberData.volunteer.login"></v-text-field>
+          <v-text-field v-if="!memberIsExist" label="Телеграм участника" v-model="memberData.volunteer.login"></v-text-field>
         </v-row>
 
         <v-row>
