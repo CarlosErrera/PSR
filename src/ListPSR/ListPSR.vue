@@ -30,23 +30,23 @@
     </template>
 
     <template v-slot:item.id="{ item }">
-      <span> {{ item.psr.id }}</span>
+      <span> {{ item.psr && item.psr.id }}</span>
     </template>
 
     <template v-slot:item.name="{ item }">
-      <span> {{item.psr.name}}</span>
+      <span> {{ item.psr && item.psr.name}}</span>
     </template>
 
     <template v-slot:item.startDate="{ item }">
-      <span> {{item.psr.startDate}}</span>
+      <span> {{ item.psr && item.psr.startDate}}</span>
     </template>
 
     <template v-slot:item.endDate="{ item }">
-      <span> {{item.psr.endDate }}</span>
+      <span> {{item.psr && item.psr.endDate }}</span>
     </template>
 
     <template v-slot:item.psrState="{ item }">
-      <span> {{item.psr.psrState.name }}</span>
+      <span> {{ item.psr.psrState && item.psr.psrState.name }}</span>
     </template>
 
     <template v-slot:item.cardPSR="{item}">
@@ -73,4 +73,5 @@
 .defaultStatus {
   color: limegreen;
 }
+
 </style>

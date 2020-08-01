@@ -22,6 +22,7 @@ export default {
       { text: "Начало ПСР", value: "startDate" },
       { text: "Окончание ПСР", value: "endDate" },
       { text: "Статус", value: "psrState" },
+      { text: "Телефон", value: "phone", sortable: false },
       { text: "Карточка ПСР", value: "cardPSR", sortable: false },
       { text: "Лист Регистрации", value: "registrList", sortable: false }
     ],

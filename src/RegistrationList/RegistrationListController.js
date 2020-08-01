@@ -29,12 +29,26 @@ export default {
         { text: "РВП", value: "startVolunteerTime", sortable: false },
         { text: "РВО", value: "endVolunteerTime", sortable: false },
         { text: "Эк", value: "shuttleNum", sortable: false },
+        { text: "Тел", value: "phone", sortable: false },
       ]
     };
   },
   created() {
     this.initialize();
 
+  },
+  filters:{
+    phoneRender: function(phone){
+      var newPhone = phone;
+      if ( typeof phone == 'string'){
+        if (phone.length > 6){
+          return newPhone.charAt(0)+'-'+newPhone.slice(1, 4)+ '-'+newPhone.substr(5);
+        }
+        else{
+          return newPhone;
+        }
+      }
+    }
   },
   methods: {
     initialize: function() {

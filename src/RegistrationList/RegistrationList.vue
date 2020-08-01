@@ -1,5 +1,6 @@
 <template>
-  <v-card>
+  <div class="registrList">
+  <v-card >
     <v-dialog v-model="isActiveAddMemberForm" max-width="700">
       <addMemberForm v-bind:ListPsrId="psrID" v-if="isActiveAddMemberForm" v-on:close="closeMemberForm"/>
     </v-dialog>
@@ -55,15 +56,15 @@
           :disable-pagination="true">
 
         <template v-slot:item.id="{ item }">
-          <span>{{ item.volunteer.id}}</span>
+          <span>{{ item.volunteer && item.volunteer.id}}</span>
         </template>  
 
         <template v-slot:item.fio="{ item }">
-          <span>{{ item.volunteer.fio}}</span>
+          <span>{{ item.volunteer && item.volunteer.fio}}</span>
         </template>  
 
         <template v-slot:item.volunteerStatus="{ item }">
-          <span>{{ item.volunteerStatus.name}}</span>
+          <span>{{ item.volunteer && item.volunteerStatus.name}}</span>
         </template> 
 
         <!-- <template v-slot:item.shuttleNum="{ item }">
@@ -71,19 +72,23 @@
         </template>   -->
 
         <template v-slot:item.classification="{ item }">
-          <span>{{ item.volunteer.classification.name }}</span>
+          <span>{{item.volunteer && item.volunteer.classification &&  item.volunteer.classification.name }}</span>
         </template>  
 
         <template v-slot:item.startVolunteerTime="{ item }">
-          <span>{{ item.startVolunteerTime}}</span>
+          <span>{{ item && item.startVolunteerTime}}</span>
         </template>  
 
         <template v-slot:item.endVolunteerTime="{ item }">
-          <span>{{ item.endVolunteerTime }}</span>
+          <span>{{ item && item.endVolunteerTime }}</span>
         </template>  
 
         <template v-slot:item.shuttleNum="{ item }">
-          <span>{{ item.shuttleNum }}</span>
+          <span>{{ item && item.shuttleNum }}</span>
+        </template> 
+
+        <template v-slot:item.phone="{ item }">
+          <span>{{ item.volunteer &&  item.volunteer.phone | phoneRender }}</span>
         </template> 
         
         <!-- <template v-slot:item.data-table-select="{ item }">
@@ -100,7 +105,16 @@
         
     </v-card-text>
   </v-card>
+  </div>
 
 
 </template>
+<style>
+@media screen and (max-width: 720px) {
+  .registrList{
+    background-color: white;
+    width: 725px;
+  }
+}
+</style>
 <script src="./RegistrationListController.js"></script>
